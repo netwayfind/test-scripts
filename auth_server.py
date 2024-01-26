@@ -1,8 +1,7 @@
 import argparse
 import base64
 
-from http.server import SimpleHTTPRequestHandler
-from socketserver import TCPServer
+from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 
 class RequestHandler(SimpleHTTPRequestHandler):
     TOKEN = ''
@@ -87,7 +86,7 @@ def main():
     RequestHandler.COOKIE = args.cookie
     print('Cookie: ' + RequestHandler.COOKIE)
     
-    http_server = TCPServer(('', int(args.port)), RequestHandler)
+    http_server = ThreadingHTTPServer(('', int(args.port)), RequestHandler)
     http_server.serve_forever()
 
 if __name__ == '__main__':
